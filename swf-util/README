@@ -9,7 +9,7 @@ swf util is a lightweight tool to read swf header¡¢compress/decompress swf for R
   bit-struct>=0.11 (homepage:http://redshift.sourceforge.net/bit-struct/)
 
 ==Install
-  At first,please install bit-struct 
+  At first,please install bit-struct(download it from:http://redshift.sourceforge.net/bit-struct/)
   then, gem install SwfUtil-0.01.gem
 
 ==Example  
