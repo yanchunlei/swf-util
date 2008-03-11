@@ -23,8 +23,8 @@ header.frame_rate
 ......
 
 #decompress swf
-SwfUtil::decompress_header("test.swf")
+SwfUtil::decompress_swf("test.swf")
 
 #compress swf
-SwfUtil::compress_header("test.swf")
+SwfUtil::compress_swf("test.swf")
 
