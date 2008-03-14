@@ -42,8 +42,6 @@ module SwfUtil
       
       @frame_rate = temp[bytePointer]
       bytePointer+=1
-      
-      
       fc1 = temp[bytePointer] & 0xFF
       bytePointer+=1
       

@@ -7,16 +7,16 @@ module SwfUtil
     end
     def read_file(file,to)
       size=read_full_size(file)
-      buffer=nil
+      buff = nil
       File.open(file,"r") do |fin|
-        buffer=fin.read(size)
+        buff = fin.read size
       end
-      temp=compress(buffer)
+      temp=compress(buff)
       File.open(to,"w+") do |fout|
         fout.write(temp)
       end
     end
-    def   compress(buffer)
+    def compress(buffer)
       compressor=Zlib::Deflate.new
       data=compressor.deflate(strip(buffer),Zlib::FINISH)
       data=buffer[0,8]+data

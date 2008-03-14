@@ -2,16 +2,16 @@ require 'bit-struct'
 module SwfUtil
   class SWFCompression
     def read_full_size(file)
-      temp=nil
+      buff = nil
       File.open(file,"r") do |f|
         f.seek(4,IO::SEEK_CUR)
-        temp=f.read(4)
+        buff = f.read 4
       end
-      return read_size(temp)
+      return read_size(buff)
     end
-    def read_size(temp)
-      temp=temp.reverse
-      size=Size.new(temp).value
+    def read_size(buff)
+      buff=buff.reverse
+      size=Size.new(buff).value
     end
     def strip(bytes)
       bytes[8,bytes.size-8]
