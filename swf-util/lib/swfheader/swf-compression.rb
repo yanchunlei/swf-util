@@ -1,4 +1,3 @@
-require 'bit-struct'
 module SwfUtil
   class SWFCompression
     def read_full_size(file)
@@ -7,18 +6,11 @@ module SwfUtil
         f.seek(4,IO::SEEK_CUR)
         buff = f.read 4
       end
-      return read_size(buff)
+      return buff.unpack("L")
     end
-    def read_size(buff)
-      buff=buff.reverse
-      size=Size.new(buff).value
-    end
-    def strip(bytes)
+    def strip_header(bytes)
       bytes[8,bytes.size-8]
     end
-  end
-  class Size<BitStruct
-    unsigned :value,32
   end
 end
 

@@ -1,8 +1,8 @@
 $:.unshift File.join(File.dirname(__FILE__),"..","lib")
-require 'swf_util'
+require 'swfheader'
 #read swf header
-puts SwfUtil::read_header(File.join(File.dirname(__FILE__),".","test.swf")).inspect
-
+swfheader=SwfUtil::read_header(File.join(File.dirname(__FILE__),".","test.swf"))
+puts swfheader.inspect
 #decompress swf
 SwfUtil::decompress_swf(File.join(File.dirname(__FILE__),".","test.swf"),
                    File.join(File.dirname(__FILE__),".","test2.swf"))

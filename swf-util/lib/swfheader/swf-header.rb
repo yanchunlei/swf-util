@@ -8,47 +8,47 @@ module SwfUtil
     COMPRESSED   = "compressed"
     UNCOMPRESSED = "uncompressed"
     def parse_header(file)
-      temp=nil
+      buffer=nil
       @size=read_full_size(file)
       File.open(file,"rb") do |f|
-        temp=f.read
+        buffer=f.read
       end
-      if !is_swf?(temp)
-        raise RuntimeError.new,"File does not appear to be a swf",caller
+      if !is_swf?(buffer)
+        raise RuntimeError.new,"File does not appear to be a swf file",caller
       else
-        @signature=temp[0,3]
+        @signature=buffer[0,3]
       end
-      if is_compressed?(temp[0])
-        temp=SWFDecompressor.new.uncompress(temp)
+      if is_compressed?(buffer[0])
+        buffer=SWFDecompressor.new.uncompress(buffer)
         @compression_type=COMPRESSED
       else
         @compression_type=UNCOMPRESSED
       end
-      @version=temp[3]
-      @nbits = ((temp[8]&0xff)>>3)
-      pbo = read_packed_bits( temp, 8, 5, @nbits ) 
-      pbo2 = read_packed_bits( temp, pbo.nextByteIndex,pbo.nextBitIndex, @nbits ) 
+      @version=buffer[3]
+      @nbits = ((buffer[8]&0xff)>>3)
+      pbo = read_packed_bits( buffer, 8, 5, @nbits ) 
+      pbo2 = read_packed_bits( buffer, pbo.nextByteIndex,pbo.nextBitIndex, @nbits ) 
       
-      pbo3 = read_packed_bits( temp, pbo2.nextByteIndex,pbo2.nextBitIndex, @nbits ) 
+      pbo3 = read_packed_bits( buffer, pbo2.nextByteIndex,pbo2.nextBitIndex, @nbits ) 
       
-      pbo4 = read_packed_bits( temp, pbo3.nextByteIndex,pbo3.nextBitIndex, @nbits ) 
+      pbo4 = read_packed_bits( buffer, pbo3.nextByteIndex,pbo3.nextBitIndex, @nbits ) 
       @xmax = pbo2.value
       @ymax = pbo4.value 
       
       @width = convert_twips_to_pixels( @xmax ) 
       @height = convert_twips_to_pixels( @ymax ) 
       
-      bytePointer = pbo4.nextByteIndex + 2 
+      byte_pointer = pbo4.nextByteIndex + 2 
       
-      @frame_rate = temp[bytePointer]
-      bytePointer+=1
-      fc1 = temp[bytePointer] & 0xFF
-      bytePointer+=1
+      @frame_rate = buffer[byte_pointer]
+      byte_pointer+=1
+      fc1 = buffer[byte_pointer] & 0xFF
+      byte_pointer+=1
       
-      fc2 = temp[bytePointer] & 0xFF
-      bytePointer+=1
-      @frame_count=(fc2 <<8)+fc1 
-      temp=nil
+      fc2 = buffer[byte_pointer] & 0xFF
+      byte_pointer+=1
+      @frame_count=(fc2<<8)+fc1 
+      buffer=nil
     end
     def is_swf?(bytes)
       bytes[0,3]=="FWS" or bytes[0,3]=="CWS"
@@ -60,29 +60,29 @@ module SwfUtil
         return false
       end
     end
-    def read_packed_bits(bytes,byteMarker,bitMarker,length)
+    def read_packed_bits(bytes,byte_marker,bit_marker,length)
       total = 0
-      shift = 7 - bitMarker 
+      shift = 7 - bit_marker 
       counter = 0 
-      bitIndex = bitMarker 
-      byteIndex = byteMarker 
+      bit_index = bit_marker 
+      byte_index = byte_marker 
       while counter<length
-       (bitMarker...8).each do |i|
-          bit =((bytes[byteMarker] & 0xff ) >> shift ) & 1 
+       (bit_marker...8).each do |i|
+          bit =((bytes[byte_marker] & 0xff ) >> shift ) & 1 
           total = ( total << 1 ) + bit 
-          bitIndex = i 
+          bit_index = i 
           shift-=1 
           counter+=1 
           if counter==length
             break 
           end
         end
-        byteIndex = byteMarker 
-        byteMarker+=1
-        bitMarker = 0 
+        byte_index = byte_marker 
+        byte_marker+=1
+        bit_marker = 0 
         shift = 7 
       end
-      return PackedBitObj.new(bitIndex, byteIndex, total ) 
+      return PackedBitObj.new(bit_index, byte_index, total ) 
     end
     def  convert_twips_to_pixels(twips)
       twips / 20 
