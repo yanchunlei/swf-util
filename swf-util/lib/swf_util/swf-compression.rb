@@ -3,7 +3,7 @@ module SwfUtil
   class SWFCompression
     def read_full_size(file)
       buff = nil
-      File.open(file,"r") do |f|
+      File.open(file,"rb") do |f|
         f.seek(4,IO::SEEK_CUR)
         buff = f.read 4
       end

@@ -6,13 +6,12 @@ module SwfUtil
       read_file(from,to) if !from.nil? and !to.nil?
     end
     def read_file(file,to)
-      size=read_full_size(file)
       buff = nil
-      File.open(file,"r") do |fin|
-        buff = fin.read size
+      File.open(file,"rb") do |fin|
+        buff = fin.read
       end
       temp=compress(buff)
-      File.open(to,"w+") do |fout|
+      File.open(to,"wb") do |fout|
         fout.write(temp)
       end
     end

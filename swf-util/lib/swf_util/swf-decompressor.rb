@@ -7,11 +7,11 @@ module SwfUtil
     end
     def read_file(file,to) 
       swf=nil
-      File.open(file,"r") do |f|
-        swf=f.read(read_full_size(file))
+      File.open(file,"rb") do |f|
+        swf=f.read
       end
       decomp=uncompress(swf)
-      File.open(to,"w+") do |f|
+      File.open(to,"wb") do |f|
         f.write(decomp)
       end  
     end

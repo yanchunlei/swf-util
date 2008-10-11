@@ -10,8 +10,8 @@ module SwfUtil
     def parse_header(file)
       temp=nil
       @size=read_full_size(file)
-      File.open(file,"r") do |f|
-        temp=f.read(@size)
+      File.open(file,"rb") do |f|
+        temp=f.read
       end
       if !is_swf?(temp)
         raise RuntimeError.new,"File does not appear to be a swf",caller
