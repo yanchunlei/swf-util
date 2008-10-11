@@ -53,14 +53,7 @@ module SwfUtil
     def is_swf?(bytes)
       bytes[0,3]=="FWS" or bytes[0,3]=="CWS"
     end
-    def is_compressed?(first_byte)
-      if first_byte==67
-        return true
-      else
-        return false
-      end
-    end
-    def read_packed_bits(bytes,byte_marker,bit_marker,length)
+   def read_packed_bits(bytes,byte_marker,bit_marker,length)
       total = 0
       shift = 7 - bit_marker 
       counter = 0 

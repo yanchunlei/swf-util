@@ -6,12 +6,11 @@ module SwfUtil
       read_file(from,to) if !from.nil? and !to.nil?
     end
     def read_file(file,to) 
-      header=SWFHeader.new(file)
-      raise RuntimeError.new,"The file have not been compressed",caller if header.compression_type==SWFHeader::UNCOMPRESSED
       swf=nil
       File.open(file,"rb") do |f|
         swf=f.read
       end
+      raise RuntimeError.new,"The file have not been compressed",caller if  !is_compressed?(swf[0])
       decomp=uncompress(swf)
       File.open(to,"wb") do |f|
         f.write(decomp)

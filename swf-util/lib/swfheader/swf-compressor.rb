@@ -6,12 +6,11 @@ module SwfUtil
       read_file(from,to) if !from.nil? and !to.nil?
     end
     def read_file(file,to)
-      header=SWFHeader.new(file)
-      raise RuntimeError.new,"The file have already been compressed",caller if header.compression_type==SWFHeader::COMPRESSED
       buff = nil
       File.open(file,"rb") do |fin|
         buff = fin.read
       end
+      raise RuntimeError.new,"The file have already been compressed",caller if is_compressed?(buff[0])
       result=compress(buff)
       File.open(to,"wb") do |fout|
         fout.write(result)

@@ -11,6 +11,13 @@ module SwfUtil
     def strip_header(bytes)
       bytes[8,bytes.size-8]
     end
+    def is_compressed?(first_byte)
+      if first_byte==67
+        return true
+      else
+        return false
+      end
+    end
   end
 end
 
