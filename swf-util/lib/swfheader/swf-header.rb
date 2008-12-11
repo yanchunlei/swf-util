@@ -83,6 +83,9 @@ module SwfUtil
     def convert_pixels_to_twips( pixels )
       return pixels * 20 
     end
+    def to_s
+      inspect
+    end
     def inspect
       "signature:   "+@signature.to_s+"\n"+
       "version:     "+@version.to_s+"\n"+
@@ -93,8 +96,8 @@ module SwfUtil
       "ymax:        "+@ymax.to_s+"\n"+
       "width:       "+@width.to_s+"\n"+
       "height:      "+@height.to_s+"\n"+
-      "frameRate:   "+@frame_rate.to_s+"\n"+
-      "frameCount:  "+@frame_count.to_s+"\n"
+      "frame_rate:   "+@frame_rate.to_s+"\n"+
+      "frame_count:  "+@frame_count.to_s+"\n"
     end
   end
 end

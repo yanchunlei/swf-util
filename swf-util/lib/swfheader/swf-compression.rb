@@ -6,7 +6,7 @@ module SwfUtil
         f.seek(4,IO::SEEK_CUR)
         buff = f.read 4
       end
-      return buff.unpack("L")
+      return buff.unpack("L")[0]
     end
     def strip_header(bytes)
       bytes[8,bytes.size-8]
