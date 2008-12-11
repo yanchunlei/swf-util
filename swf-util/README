@@ -14,7 +14,7 @@ Example:
 #read swf head
 require 'swfheader'
 header=SwfUtil::read_header("test.swf")
-puts header.inspect
+header.inspect
 header.version
 header.frame_rate
 ......

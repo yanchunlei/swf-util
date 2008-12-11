@@ -2,7 +2,7 @@
 require 'rubygems'
 SPEC=Gem::Specification.new do |s|
   s.name="swfheader"
-  s.version='0.10'
+  s.version='0.11'
   s.author='Dennis Zhuang'
   s.email="killme2008@gmail.com"
   s.homepage="http://www.blogjava.net/killme2008"
