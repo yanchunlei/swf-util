@@ -6,9 +6,8 @@ module SwfUtil
       read_file(from,to) if !from.nil? and !to.nil?
     end
     def read_file(file,to)
-      buff = nil
-      File.open(file,"rb") do |fin|
-        buff = fin.read
+      buff=File.open(file,"rb") do |fin|
+        fin.read
       end
       raise RuntimeError.new,"The file have already been compressed",caller if is_compressed?(buff[0])
       result=compress(buff)
@@ -20,8 +19,8 @@ module SwfUtil
       compressor=Zlib::Deflate.new
       data=compressor.deflate(strip_header(buffer),Zlib::FINISH)
       data=buffer[0,8]+data
-      data[0]=67
-      return data
+      data[0]=?C
+      data
     end
   end
 end

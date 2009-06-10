@@ -6,9 +6,8 @@ module SwfUtil
       read_file(from,to) if !from.nil? and !to.nil?
     end
     def read_file(file,to) 
-      swf=nil
-      File.open(file,"rb") do |f|
-        swf=f.read
+      swf=File.open(file,"rb") do |f|
+        f.read
       end
       raise RuntimeError.new,"The file have not been compressed",caller if  !is_compressed?(swf[0])
       decomp=uncompress(swf)
@@ -20,7 +19,7 @@ module SwfUtil
       decompressor =Zlib::Inflate.new
       swf=decompressor.inflate(strip_header(bytes))
       swf=bytes[0,8]+swf
-      swf[0] = 70
+      swf[0] = ?F
       swf
     end
   end

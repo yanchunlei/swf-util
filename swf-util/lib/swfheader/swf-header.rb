@@ -8,10 +8,9 @@ module SwfUtil
     COMPRESSED   = "compressed"
     UNCOMPRESSED = "uncompressed"
     def parse_header(file)
-      buffer=nil
       @size=read_full_size(file)
-      File.open(file,"rb") do |f|
-        buffer=f.read
+      buffer=File.open(file,"rb") do |f|
+        f.read
       end
       if !is_swf?(buffer)
         raise RuntimeError.new,"File does not appear to be a swf file",caller
